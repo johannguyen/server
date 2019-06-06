@@ -17,3 +17,8 @@ Filter by message.
 Sort by message, created date, last modified date
 Websocket enable/disable.
 
+## Require
+PostgreSQL installed: https://www.postgresql.org/download/
+
+## To run
+Import maven project. Start spring boot app.

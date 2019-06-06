@@ -30,13 +30,18 @@ public class WebSocketController {
     @MessageMapping("/post")
     @SendTo("/topic/post")
 	public String processMessageFromClient(@Payload String message) throws Exception {
-    	Post post = new Gson().fromJson(message, Post.class);
+    	Post postFromMessage = new Gson().fromJson(message, Post.class);
     	Post postRes = null;
-    	if(post.getId() != null) {
-    		postRes = postService.updatePost(post);
+    	if(postFromMessage.getId() != null) {
+    		Post p = postService.getById(postFromMessage.getId());
+			if(p != null) {
+				p.setColor(postFromMessage.getColor());
+				p.setMessage(postFromMessage.getMessage());
+			}
+			postService.updatePost(p);
     	}
     	else {
-    		postRes = postService.createPost(post);
+    		postRes = postService.createPost(postFromMessage);
     	}
     	String response = new Gson().toJson(postRes);
 		return response;
